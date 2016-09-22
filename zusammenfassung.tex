@@ -1,0 +1,126 @@
+% !TeX spellcheck = en_GB
+% /*
+%  * ----------------------------------------------------------------------------
+%  * "THE BEER-WARE LICENSE" (Revision 42):
+%  * <michi.wieland@hotmail.com> wrote this file. As long as you retain this notice you
+%  * can do whatever you want with this stuff. If we meet some day, and you think
+%  * this stuff is worth it, you can buy me a beer in return. Michael Wieland
+%  * ----------------------------------------------------------------------------
+%  */
+
+\input{./template.tex}
+
+% Dokumentinformationen
+\newcommand{\SUBJECT}{Zusammenfassung}
+\newcommand{\TITLE}{Programmieren und Formale Methoden}
+
+\loadglsentries{glossar}
+
+\input{./front.tex}
+
+\section{Introduction}
+The use of a formal language is to describe and solve problems is central to computer science.
+
+\begin{description}
+	\item[Formal Methods] Make computer programming more reliable and predictable by mathematical analysis.
+	\item[Formal Language] Set of string of symbols that are constrained by specific rules. Membership in this set can automatically be determined (mechanical processing possible)
+	\item[Informal Language] Any living natural language
+\end{description}
+
+\section{Programming Paradigms}
+
+Paradigm is a Worldview / Concept / Tought patterns.
+
+OOP uses multiple of the paradigms below, but is not a paradigm in this sense.
+
+\subsection{The Imperative Programming Paradigm}
+
+Is imperative (de: Befehlend) and focuses on \emph{how} a program works, like a recipee. It uses commands to change the program's state.
+
+A program (in this course) is a sequence of commands and the computation is a change of state.
+
+Most hardware implementations of computer is imperative.
+
+It is based on the Von Neumann architecture.
+
+\subsubsection{Basic Building Blocks}
+
+\begin{description}
+	\item[Assignments (sate/store/heap)] x:= x+1 %TODO: COde
+	\item[Sequential composition] ...; ...
+	\item[Conditional excetion] if ... then ... else...
+	\item[Repetition] while .. do .. / goto ...
+\end{description}
+
+
+
+\subsection{The Declarative Programming Paradigm}
+
+Discribe logic of computation without expicitly describing its control flow.
+
+\emph{What} should a programm accomplish, not how the language should do smth. (But it must still be computable in the end).
+
+Programs are here theories of a formal logic. Computations are deductions.
+
+Examples: Spreadsheets, Regex, Query Languages (SQL etc.), Functional programming languages (Haskel, ...), Logic programming (Prolog)
+
+\subsubsection{The Functional Programming Paradigm}
+
+Basis: The Lambda Calculus
+
+Programs are function definitions, computations are function evaluations.
+
+\subsubsection{The Logical Programming Paradigm}
+Basis: Predicate logic
+
+Programs are rules in predicate logic and computation is a proof of a predicate.
+
+
+
+\section{Formal Proof (Propositional and Predicate logic)}
+%TODO: Folie 3 PrFm_01-FOrmal Proof_01-Formal proof covered?
+
+\subsection{refresher ''Diskrete Mathematik''}
+Kinds of logic: Boolean, Prädikatenlogik ($\forall,\exists$) %TODO
+
+Proofs: induction, direct, indirect, by contradiction
+
+\subsection{What are formal and informal proofs?}
+Informal Proof. Arguments are presented as explanations in nautral language (most math textbooks; need a human to check)
+
+Formal Proof: Is constructed using well-formed formulas of a formal language and formally defined rules of inference.
+ Can be checked by a machine, proofs can sometimes be mechanically constructed. Computer programs are able to assist proof (e.g. like excel), sometimes not practically possible without them.
+
+\subsection{Sequent Calculus style}
+
+Most Programming Languages are defined in the sequence calculus style; often used for types and programming languages, semantics and proofs of languages.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{images/sequent_calculus_overview}
+\caption{Overview Sequent Calculus chapter}
+\label{fig:sequentcalculusoverview}
+\end{figure}
+
+\subsubsection{Definitions}
+
+\begin{description}
+	\item[Sequent] Something that we want to proof (e.g. $S1$)
+	\item[Proof Rule] A device to construct proofs of sequents. Name: $r$, $C$: Consequent, $\overrightarrow{A}$: list (vector).
+	$\frac{\overrightarrow{A}}{C} \boldmath{r}$ \\
+	We want to Proof C out of multiple Proofs $A_1$, $A_2$ etc. with the rule $r$. If there is no A above the line, it is a axiom.
+	\item[Axiom] Proof Rule without A %TODO Slide 5
+	\item[Theory] (possibly infinite) Set of proof rules $r_1$, $r_2$, etc.
+	\item[Proof (rules)] Must be Ordered in a Tree until we get to a Axiom. %TODO: Slide 6
+\end{description}
+
+\section{Logic programming (Prolog)}
+
+\section{Lambda calculus}
+
+\section{Functional Programming (Haskell)}
+
+\section{Multi-Paradigm Programming (Scala)}
+
+
+\input{./appendix.tex}
