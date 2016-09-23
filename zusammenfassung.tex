@@ -78,41 +78,84 @@ Programs are rules in predicate logic and computation is a proof of a predicate.
 
 
 \section{Formal Proof (Propositional and Predicate logic)}
-%TODO: Folie 3 PrFm_01-FOrmal Proof_01-Formal proof covered?
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\linewidth]{images/sequent_calculus_overview}
+	\caption{Overview calculus proof family.}
+	\label{fig:sequentcalculusoverview}
+\end{figure}
 
 \subsection{refresher ''Diskrete Mathematik''}
-Kinds of logic: Boolean, Prädikatenlogik ($\forall,\exists$) %TODO
+Kinds of logic: Boolean, ''Prädikatenlogik'' ($\forall,\exists, \Rightarrow, \Leftrightarrow, \wedge, \vee, \neg$)
 
 Proofs: induction, direct, indirect, by contradiction
 
 \subsection{What are formal and informal proofs?}
-Informal Proof. Arguments are presented as explanations in nautral language (most math textbooks; need a human to check)
+A \emph{informal proof} are arguments presented as explanations in natural language (like most mathematical textbooks; need a human to check)
 
-Formal Proof: Is constructed using well-formed formulas of a formal language and formally defined rules of inference.
- Can be checked by a machine, proofs can sometimes be mechanically constructed. Computer programs are able to assist proof (e.g. like excel), sometimes not practically possible without them.
+A \emph{formal proof} is constructed using well-formed formulas of a formal language and formally defined rules of inference.
+ They can be checked by a machine and sometimes be mechanically constructed. Computer programs are able to assist proving (e.g. like Excel), sometimes a proof is even not practically possible without them.
 
 \subsection{Sequent Calculus style}
 
-Most Programming Languages are defined in the sequence calculus style; often used for types and programming languages, semantics and proofs of languages.
+Most programming languages are defined in the sequence calculus style; often used for types and programming languages, semantics and proofs of languages.
 
-\begin{figure}
-\centering
-\includegraphics[width=0.7\linewidth]{images/sequent_calculus_overview}
-\caption{Overview Sequent Calculus chapter}
-\label{fig:sequentcalculusoverview}
-\end{figure}
+
+\subsubsection{Proof Rules}
+
+ A device to construct proofs.
+ 
+ \[
+ \frac{\overrightarrow{A}}{C} \boldmath{r}
+ \]
+ 
+ \begin{description}
+	 	\item[$r$] Rule name
+	 	\item[$C$] Consequent (to be proven)
+	 	\item[$\vec{A}$] list of sequent proof rules (vector).
+ 	\end{description}
+ 	
+ 
+ We want to proof $C$ out of multiple sequent proof rules $A_1, A_2, ..., A_n$ with the rule $r$. If there is no $A$ above the line, the proof rule is a axiom. The order of proof rules $A$ is important and not permutable.
+ 
+ To build a complete proof, all proof rules must be proven up to a axiom.
+
 
 \subsubsection{Definitions}
 
 \begin{description}
-	\item[Sequent] Something that we want to proof (e.g. $S1$)
-	\item[Proof Rule] A device to construct proofs of sequents. Name: $r$, $C$: Consequent, $\overrightarrow{A}$: list (vector).
-	$\frac{\overrightarrow{A}}{C} \boldmath{r}$ \\
-	We want to Proof C out of multiple Proofs $A_1$, $A_2$ etc. with the rule $r$. If there is no A above the line, it is a axiom.
-	\item[Axiom] Proof Rule without A %TODO Slide 5
-	\item[Theory] (possibly infinite) Set of proof rules $r_1$, $r_2$, etc.
-	\item[Proof (rules)] Must be Ordered in a Tree until we get to a Axiom. %TODO: Slide 6
+	\item[Sequent] a proof rule or axiom
+	\item[Proof Rule] A rule $r$ to proof a consequent $C$ with more proof rules $A$
+	\item[pending sub-goal] A sequent which is not yet proven by a axiom.
+	\item[Axiom] Proof rule without sequent $A$; assumed to be true. \\
+	There should be as less as possible axioms.
+	\item[Calculus (or Theory)] (possibly infinite) set of proof rules $r_1$, $r_2$.
+	\item[Proof (or Derivations)] Ordered proof rules in a tree, so that all proof rules are proven by a axiom.
 \end{description}
+
+\subsubsection{Example}
+
+\paragraph{Type checking proof}
+
+of the shorthand if else construct for integers.
+
+\[
+	\frac{
+			\frac{
+				\frac{}{x::int}x_{int} \text{   } \frac{}{y::int}y_{int}
+			}{(x > y)::bool} \text{   }
+		  \frac{
+				\frac{}{x::int}x_{int} \text{   } \frac{}{y::int}y_{int}
+			}{(x - y)::int} -_{int1} \text{   }
+			\frac{
+				\frac{}{y::int}y_{int} \text{   } \frac{}{x::int}x_{int}
+			}{(y - x)::int} -_{int2}
+		}{(x>y? x - y : y - x)::int} condExpr_{int}
+\]
+
+\subsection{Propositional Calculus}
+
 
 \section{Logic programming (Prolog)}
 
