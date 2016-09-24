@@ -113,13 +113,13 @@ Most programming languages are defined in the sequence calculus style; often use
  \begin{description}
 	 	\item[$r$] Rule name
 	 	\item[$C$] Consequent (to be proven)
-	 	\item[$\vec{A}$] list of sequent proof rules (vector).
+	 	\item[$\vec{A}$] Antecedents: list of sequent proof rules (vector).
  	\end{description}
  	
  
  We want to proof $C$ out of multiple sequent proof rules $A_1, A_2, ..., A_n$ with the rule $r$. If there is no $A$ above the line, the proof rule is a axiom. The order of proof rules $A$ is important and not permutable.
  
- To build a complete proof, all proof rules must be proven up to a axiom.
+ To build a complete proof, all proof rules must be proven up to an axiom.
 
 
 \subsubsection{Definitions}
@@ -127,11 +127,12 @@ Most programming languages are defined in the sequence calculus style; often use
 \begin{description}
 	\item[Sequent] a proof rule or axiom
 	\item[Proof Rule] A rule $r$ to proof a consequent $C$ with more proof rules $A$
-	\item[pending sub-goal] A sequent which is not yet proven by a axiom.
-	\item[Axiom] Proof rule without sequent $A$; assumed to be true. \\
-	There should be as less as possible axioms.
+	\item[pending sub-goal] A sequent which is not yet proven by an axiom.
+	\item[Axiom] Proof rule without sequent $A$; basic element assumed to be true. \\
+	There should be as few axioms as possible.
 	\item[Calculus (or Theory)] (possibly infinite) set of proof rules $r_1$, $r_2$.
-	\item[Proof (or Derivations)] Ordered proof rules in a tree, so that all proof rules are proven by a axiom.
+	\item[Proof (or Derivations)] Ordered proof rules in a tree, so that all proof rules are proven by an axiom.
+	\item[incomplete Proof] has at least one pending subgoal
 \end{description}
 
 \subsubsection{Example}
