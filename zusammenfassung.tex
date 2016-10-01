@@ -10,6 +10,11 @@
 
 \input{./template.tex}
 
+% Template extensions
+\newcommand\equalhat{\widehat{=}}
+\newcommand\mathSpaceSeparator{\text{ }\text{ }\text{ }\text{ }}
+
+
 % Dokumentinformationen
 \newcommand{\SUBJECT}{Zusammenfassung}
 \newcommand{\TITLE}{Programmieren und Formale Methoden}
@@ -107,7 +112,7 @@ Most programming languages are defined in the sequence calculus style; often use
  A device to construct proofs.
  
  \[
- \frac{\overrightarrow{A}}{C} \boldmath{r}
+ \frac{\overrightarrow{A}}{C} \boldsymbol{r}
  \]
  
  \begin{description}
@@ -155,7 +160,130 @@ of the shorthand if else construct for integers.
 		}{(x>y? x - y : y - x)::int} condExpr_{int}
 \]
 
-\subsection{Propositional Calculus}
+\subsection{Propositional Calculus (DE: Aussagenlogik)}
+
+Example:
+It i
+
+\subsubsection{Definitions}
+\begin{description}
+	\item[Predicate] Truth value that we can assume or wish to prove (also called proposition).
+	\item[Sequent] $H \vdash G$, read: Under the hypotheses $H$, prove the goal $G$ \hfill \\
+	\begin{description}
+		\item[$H$] Hypoteheses: a (finite) set of predicates
+		\item[$\vdash$] therefore/entails
+		\item[$G$] Goal: a single predicate
+	\end{description}
+\end{description}
+
+\subsubsection{basicPC: Basic Propositional Calculus}
+
+The basicPC syntax is the minimal subset required to write propositional logic. The syntax is defined in BNF (Bacus-Naur-Form).
+
+\[
+	P ::= \bot | \neg P | P \land P
+\]
+
+The rules above are a logical \emph{NAND}, which are also the most basic element of electronical circuits.
+
+\subsubsection{Proof Rule Schema}
+
+Proof Rule schemas represent an infinite number of proof rules of the same form. They use ''meta variables'', that can be instantiated (that is, replaced).
+
+\paragraph{Example} 
+\[
+	\frac{
+		\text{H} \vdash P \mathSpaceSeparator \text{H}, P \vdash C
+	 }{
+		\text{H} \vdash Q
+	} cut
+\]
+
+In this example, H, $P$ and $Q$ are meta-variables that need to be initiated with concrete predicates, e.g. $A$, $B$ and $C$: \begin{align*}
+  \text{H} &:= \{A\} \\
+	P &:= B \\
+	Q &:= C \\
+\end{align*}
+
+Commas, like in the example $\text{H}, P \vdash C$, are used to create a new set containing alle elements from H and $P$.
+
+\subsubsection{Proof Rules of basicPC}
+
+\begin{align*}
+	  \frac{}{H,P \vdash P}
+	& hyp
+	& \text{We can add more Hypotheses, which does not change the} \\
+		\frac{H \vdash Q}{\text{H},P \vdash Q}
+	& mon
+	& \text{?} \\
+	  \frac{H \vdash P \mathSpaceSeparator H, P \vdash Q}{H \vdash Q}
+	& cut
+	& \text{Allows you to introduce lemmas to simplify proving } H \vdash Q \\
+	\frac{}{H, \bot \vdash P}
+	& \bot hyp
+	& \text{With a inconsistent system, you are able to prove anything.} \\
+	\frac{H, \neg P \vdash \bot}{H \vdash P}
+	& contr
+	& \text{Proof by contradiction: If we assume P is false, our hypotheses are inconsistent.} \\
+	%TODO: \neg goal
+	%TODO: \neg hyp
+  %HERE COMES ANOTHER RULE
+	& \neg goal
+	& \text{?}
+	\frac{H \vdash P \mathSpaceSeparator H \vdash Q}{H \vdash P \land Q}
+	& \land goal
+	& \text{If we want to prove } P \land Q \text{ , we can prove } P \text{ and } Q \text{ separately.} \\ %TODO \land hyp
+	\frac{H,P,Q \vdash R}{H,P \land Q \vdash R}
+	& \land hyp
+	&	\text{...} %TODO: ?
+\end{align*}
+
+\subsubsection{Operators}
+
+The $\equalhat$-Sign denotes a syntactic equivalence.
+
+\begin{align*}
+	\top & \equalhat \neg \bot \\
+	P \land Q & \equalhat \neg(\neg P \lor \neg Q) %WRong
+	%TODO Slide 10 from week 2, 01-02
+\end{align*}
+
+
+\subsubsection{Proof by case distinction}
+
+You can prove each (sub)case, to prove the statement. %TODO: Slide 12
+
+\subsubsection{Levels of reasoning}
+Syntactic rewriting: Using syntactic equivalence $\equalhat$
+
+Logical validity: Using proof rules
+
+Both levels can be used in a single proof
+
+The rules to this point are ''trusted'' rules, you cannot prove them. All further 
+
+\subsection{First order Predicate Calculus}
+
+We would like to extend predicate calculus PC FoPCe via an intermediate step basicFoPCe to also allow Mathematical objects (numbers, functions, things, people etc.)
+
+\subsubsection{Definition}
+
+\begin{description}
+	\item[Expression] An expression is a formal statement denoting a mathematical object. Expressions cannot be proven. Examples: $f(x), x, g(x, f(x))$
+	\item[Variables] A variable is an identifier that denotes an expression. It is just a place holder and may be a black box. Example: $x$
+\end{description}
+
+\subsubsection{Syntax}
+%TODO: See Week 2, 01-03 Slide 5
+
+\paragraph{Free and bound variables} \[
+	\forall x .(f(x,y) = a \land A)
+\]
+
+$x$ is a bound variable: it is just a place holder. It's name has no significance and can be changed.
+
+$y$ is a free variable that can be assigned ''externally''.
+
 
 
 \section{Logic programming (Prolog)}
