@@ -2,9 +2,9 @@
 % /*
 %  * ----------------------------------------------------------------------------
 %  * "THE BEER-WARE LICENSE" (Revision 42):
-%  * <michi.wieland@hotmail.com> wrote this file. As long as you retain this notice you
+%  * Fabian Hauser wrote this file. As long as you retain this notice you
 %  * can do whatever you want with this stuff. If we meet some day, and you think
-%  * this stuff is worth it, you can buy me a beer in return. Michael Wieland
+%  * this stuff is worth it, you can buy me a beer in return. Fabian Hauser
 %  * ----------------------------------------------------------------------------
 %  */
 
@@ -92,7 +92,7 @@ Programs are rules in predicate logic and computation is a proof of a predicate.
 \end{figure}
 
 \subsection{refresher ''Diskrete Mathematik''}
-Kinds of logic: Boolean, ''Aussagenlogik'' ($\Rightarrow, \Leftrightarrow, \wedge, \vee, \neg$), ''Prädikatenlogik'' ($\forall,\exists, R(x)$)
+Kinds of logic: Boolean, ''Aussagenlogik'' ($\neg, \wedge, \vee,  \Rightarrow, \Leftrightarrow$), ''Prädikatenlogik'' ($\forall,\exists, R(x)$)
 
 Proofs: by induction, direct, indirect, by contradiction
 
@@ -212,36 +212,38 @@ In this example, H, $P$ and $Q$ are meta-variables that need to be initiated wit
 Commas, like in the example $\text{H}, P \vdash C$, are used to create a new set containing alle elements from H and $P$.
 
 \subsubsection{Proof Rules of basicPC}
-
-\begin{align*}
-	  \frac{}{H,P \vdash P}
-	& hyp
-	& \text{If P is in hypothesis and goal the sequent is proven} \\
-		\frac{H \vdash Q}{\text{H},P \vdash Q}
-	& mon
-	& \text{We can leave out individual Hypotheses} \\
-	  \frac{H \vdash P \mathSpaceSeparator H, P \vdash Q}{H \vdash Q}
-	& cut
-	& \text{Allows you to introduce lemmas to simplify proving } H \vdash Q \\
-	\frac{}{H, \bot \vdash P}
-	& \bot hyp
-	& \text{With an inconsistent system, you are able to prove anything.} \\
-	\frac{H, \neg P \vdash \bot}{H \vdash P}
-	& contr
-	& \text{Proof by contradiction: If we assume P is false, our hypotheses are inconsistent.} \\
-	\frac{H, P \vdash \bot}{H \vdash \neg P}
-	& \neg goal
-	& \text{negations can “jump” over turnstyle} \\
-	\frac{H \vdash P}{H, \neg P \vdash Q}
-	& \neg hyp
-	& \text{negations can “jump” over turnstyle} \\
-	\frac{H \vdash P \mathSpaceSeparator H \vdash Q}{H \vdash P \land Q}
-	& \land goal
-	& \text{If we want to prove } P \land Q \text{ , we can prove } P \text{ and } Q \text{ separately.} \\
-	\frac{H,P,Q \vdash R}{H,P \land Q \vdash R}
-	& \land hyp
-	&	\text{If we have a conjunction in Hypothesis, we can assume the Hypotheses seperatly}
-\end{align*}
+%% TODO
+%\begin{table}[h]
+%	\centering
+%	\begin{tabu} to \linewidth {l l}
+%		\toprule
+%		Formula & Description \\
+%		\midrule
+%		\[ \frac{}{H,P \vdash P} hyp \] &
+%			If P is in hypothesis and goal the sequent is proven \\
+%		\[ \frac{H \vdash Q}{\text{H},P \vdash Q} mon \] &
+%			We can leave out individual Hypotheses \\
+%		\[ \frac{H \vdash P \mathSpaceSeparator \text{H}, P \vdash Q \text{H} \vdash Q cut \] &
+%			Allows you to introduce lemmas to simplify proving  $H \vdash Q$ \\
+%		\[ \frac{}{H, \bot \vdash P} \bot hyp \] &
+%			With an inconsistent system, you are able to prove anything. \\
+%		\[ \frac{H, \neg P \vdash \bot}{H \vdash P} contr \] &
+%			Proof by contradiction: If we assume P is false, our hypotheses are inconsistent. \\
+%		\[ \frac{H, P \vdash \bot}{H \vdash \neg P} \neg goal \] &
+%			negations can ''jump'' over turnstile \\
+%		\[ \frac{H \vdash P}{H, \neg P \vdash Q} \neg hyp \] &
+%			negations can ''jump'' over turnstile \\
+%		\[ \frac{H \vdash P \mathSpaceSeparator H \vdash Q}{H \vdash P \land Q} \land goal \] &
+%			If we want to prove $P \land Q$ , we can prove $P$ and $Q$ separately. \\
+%		\[ \frac{H,P,Q \vdash R}{H,P \land Q \vdash R} \land hyp \] &
+%			If we have a conjunction in Hypothesis, we can assume the Hypotheses separately \\
+%	\bottomrule
+%	\end{tabu}
+%	
+%	\label{tbl:ProofRulesBasicPC}
+%	\caption{Proof Rules of basicPC}
+%\end{table}
+%
 
 \subsubsection{Operators}
 
@@ -342,6 +344,224 @@ Step 1: Model the argument as a sequent in FoPCe
 Step 2: Use Prolog to find a proof for the sequent
 
 %TODO code slide 8/9 VL Logic programming Introduction
+\subsection{Programming in Prolog}
+Prolog requires a different mindset, as it uses:
+\begin{itemize}
+	\item Declarative syntax (not procedural)
+	\item Recursion only (no ''for'' or ''while'' loops)
+	\item Relations (no functions)
+	\item Unification
+\end{itemize}
+
+\subsubsection{Fact, Rules \& Queries}
+
+\paragraph{Knowledge Base} \hfill \\
+	A collection (usually a file) of Facts.
+
+\paragraph{Fact} \hfill \\
+	Hard Facts, e.g. \lstinline|woman(mia).| or a simple fact \lstinline|party.|
+
+\paragraph{Rules} \hfill \\
+	Something is true, if something else is also true, e.g.  \lstinline|playsAirGuitar(mia):= listens2music(mia).|
+
+
+Undefined predicates (e.g. \lstinline|tatooed(mia)|) can either result in \lstinline|no| or an error-message.
+
+\paragraph{Conjunction (AND)}
+
+is expressed by a comma.
+\begin{lstlisting}[language=Prolog]
+playsAirGuitar(vincent):-
+  listens2music(vincent),
+  happy(vincent).
+\end{lstlisting}
+
+
+\paragraph{Disjunction (OR)}
+
+is expressed by a semicolon.
+\begin{lstlisting}[language=Prolog]
+playsAirGuitar(butch):-
+listens2music(butch);
+happy(butch).
+\end{lstlisting}
+
+\paragraph{Overview Logic}
+
+%TODO
+%\begin{tabu}[l l l]
+%	& Prolog & Logic \\
+%	Implication & \lstinline|A :- B| & B $\implies$ A \\
+%	Conjunction & A, B & A $\land$ B \\
+%	Disjunction & A;B A $\lor$ B
+%\end{tabu}
+
+\subsubsection{Language Components}
+
+\paragraph{Atoms}
+
+%Todo: sLIDE 32 (lowercase or 'Asdf')
+
+\paragraph{Variables}
+
+%TODO: X, Y, Variable, \_tag
+
+Are written in Uppercase, e.g. \lstinline|woman(X).| tries to find all Facts (in this case, names of woman) that match \lstinline|X|.
+
+In combination with a conjunction: \lstinline|loves(marsellus, X), woman(X).|
+
+We can also write predicates with Variables: 
+\begin{lstlisting}[language=Prolog]
+jealous(X,Y):- loves(X,Z), loves(Y,Z).
+
+?- jealous(marsellus,W).
+\end{lstlisting}
+
+\paragraph{Arity}
+
+Number of Arguments (e.g. \lstinline|woman(X)| $\rightarrow$ arity 1)
+
+You can define the same function with different arities. They are stored as e.g. \lstinline|woman/1| or \lstinline|jealous/2|
+
+\paragraph{Unification}
+
+Two terms unify, if they are \emph{exactly} the same. If you have a Variable in one Term, the instanceiation (with a concrete, equal value) is unified.
+
+In Prolog, you can check unification with the \lstinline|=|-Symbol. E.g. \lstinline|mia = mia.| Important: the Term must be finite (or Prolog tries to output a infinite function nesting.)
+
+Some more examples:
+\begin{lstlisting}[language=Prolog]
+?- X=mia, X=vincent.
+no % because X cannot be mia and vincent at the same time.
+
+?- a(f(e),X) = a(Y,k(s)).
+X = k(s)
+Y = f(e)
+yes
+\end{lstlisting}
+
+We can enforce specific terms to to unify (even if they are infinite):
+\lstinline|unify_with_occurs_check(father(X),X)|
+
+\paragraph{Parse Tree}
+
+Runs from the left to the right and creates according subtrees.
+
+
+\subsubsection{Recursion}
+
+A statement \lstinline|p:-p.| does logically make sense - but will result in a endless recursion executed in prolog.
+
+\paragraph{Building a recursion} \hfill \\
+
+To build a recursion, take following steps:
+
+\begin{enumerate}
+	\item Write down the signature of the predicate
+	\item Choose parameters over which you want to perform recursion
+	\item Identify and write down the case distinctions for the recursion parameters on the left hand side of the rules.
+	\item The case distinctions consist of \emph{base} cases and \emph{recursive} cases.
+	\item For each recursive case, note down the predicate applied to the input parameter(s) made ''smaller''. The predicate may be used within the right hand side of your rule.
+	\item Complete your rules.
+	\item Check that your rules are valid properties of the predicate you want to define.
+\end{enumerate}
+
+\paragraph{Example 1} \hfill \\
+
+\begin{lstlisting}[language=Prolog]
+child(anna, bridget).
+child(bridget,caroline).
+child(caroline,donna).
+child(donna,emily).
+descend(X,Y):- child(X,Y).
+descend(X,Y):- child(X,Z), descendend(Z,Y).
+\end{lstlisting}
+
+\paragraph{Example 2} \hfill \\
+
+\begin{lstlisting}[language=Prolog]
+numeral(0).
+numeral(succ(X)):- numeral(0).
+
+?- numeral(succ(succ(succ(0)))).
+%Yes
+\end{lstlisting}
+
+\subsubsection{Lists}
+
+\begin{lstlisting}[language=Prolog]
+?- [Head|Tail] = [a,b,c].
+Head = [a]
+Tail = [b,c]
+\end{lstlisting}
+
+
+\paragraph{member/2} \hfill \\
+
+\begin{lstlisting}[language=Prolog]
+member(X, [X|T]).
+member(X,[H|T]):- member(X,T).
+\end{lstlisting}
+
+\subsubsection{Arithmetics}
+
+With Prolog, you can do following mathematical operations: $+$, $*$, $-$, $/$, $mod(7,2)$. These are really all \lstinline|/2|-expressions. To ''assign'' results, you have to use \lstinline|is/2|.
+
+Also, it is possible to compare integers:
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.2\linewidth]{images/integer_comparison}
+\caption{Integer comparisons}
+\label{fig:integercomparison}
+\end{figure}
+
+
+\begin{lstlisting}[language=Prolog]
+?- X is 4+2.
+X = 6
+\end{lstlisting}
+
+Can also be written as \lstinline[language=Prolog]|is(4,3+1)| or also \lstinline[language=Prolog]|is(4,+(3,1))|
+
+\subsubsection{Accumulators (Tail Recursions)}
+
+Tail recursion reduces the parse tree, as there are not multiple recursion possibilities. Once you reach the base clause, the result is already calculated.
+
+\lstinline|acclen/3|
+
+\begin{lstlisting}[language=Prolog]
+acclen([], Acc, Length):- Length = Acc.
+
+acclen([_|L], OldAcc, Length):-
+NewAcc is OldAcc + 1,
+acclen(L, NewAcc, Length).
+
+length(List, Length):- acclen(List, 0, Length).
+\end{lstlisting}
+
+\paragraph{Parse Tree comparision} \hfill \\
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{images/parse_tree_acclen_2}
+	\caption{Parse tree without tail recursion}
+	\label{fig:parsetreeacclen2}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.5\linewidth]{images/parse_tree_acclen_tail_recursion}
+\caption{Parse tree with tail recursion}
+\label{fig:parsetreeacclentailrecursion}
+\end{figure}
+
+\paragraph{Example: Maximum of integer list \lstinline|max([1,2,3]).|}
+
+%TODO: Notizen \mu
+
+\subsection{Compiling Prolog Programs}
+
+Prolog is based on a restricted subset of \emph{First order Predicate Calculus with Equality (FoPCe)}.
 
 \section{Lambda calculus}
 
