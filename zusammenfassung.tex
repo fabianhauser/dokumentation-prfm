@@ -563,6 +563,20 @@ length(List, Length):- acclen(List, 0, Length).
 
 Prolog is based on a restricted subset of \emph{First order Predicate Calculus with Equality (FoPCe)}.
 
+Horn Clauses is a clause with at most one un-negated (aka positive) literal. They have better computational properties.
+
+\paragraph{Example}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.4\linewidth]{images/prolog_to_horn_formula}
+\caption{Prolog to Horn Formula transition}
+\label{fig:prologtohornformula}
+\end{figure}
+
+
+A Horn Formula is a Horn Clause in CNF.
+
 \section{Lambda calculus}
 
 \section{Functional Programming (Haskell)}
