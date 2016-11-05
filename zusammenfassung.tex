@@ -52,19 +52,19 @@ It is based on the Von Neumann architecture.
 \subsubsection{Basic Building Blocks}
 
 \begin{description}
-	\item[Assignments (sate/store/heap)] x:= x+1 %TODO: COde
-	\item[Sequential composition] ...; ...
-	\item[Conditional excetion] if ... then ... else...
-	\item[Repetition] while .. do .. / goto ...
+	\item[Assignments (sate/store/heap)] \lstinline|x:= x+1|
+	\item[Sequential composition] \lstinline|...; ...|
+	\item[Conditional exception] \lstinline|if ... then ... else...|
+	\item[Repetition] \lstinline|while .. do .. / goto ...|
 \end{description}
 
 
 
 \subsection{The Declarative Programming Paradigm}
 
-Discribe logic of computation without expicitly describing its control flow.
+Describe logic of computation without explicitly describing its control flow.
 
-\emph{What} should a programm accomplish, not how the language should do smth. (But it must still be computable in the end).
+\emph{What} should a program accomplish, not how the language should do something (But it must still be computable in the end).
 
 Programs are here theories of a formal logic. Computations are deductions.
 
@@ -111,22 +111,22 @@ The sequent calculus style is widely used in computer science, for instance to d
 A sequent is a generic name for a statement that we want to prove.
 \subsubsection{Proof Rules}
 
- A device to construct proofs.
- 
- \[
- \frac{\overrightarrow{A}}{C} \boldsymbol{r}
- \]
- 
- \begin{description}
-	 	\item[$r$] Rule name
-	 	\item[$C$] Consequent (to be proven)
-	 	\item[$\vec{A}$] Antecedents: list of sequents (vector).
- 	\end{description}
- 	
- 
- We want to proof $C$ out of multiple sequent proof rules $A_1, A_2, ..., A_n$ with the rule $r$. If there is no $A$ above the line, the proof rule is an axiom. The order of proof rules in $A$ is important and not permutable.
- 
- To build a complete proof, all proof rules must be proven up to an axiom.
+A device to construct proofs.
+
+\[
+\frac{\overrightarrow{A}}{C} \boldsymbol{r}
+\]
+
+\begin{description}
+	\item[$r$] Rule name
+	\item[$C$] Consequent (to be proven)
+	\item[$\vec{A}$] Antecedents: list of sequents (vector).
+\end{description}
+
+
+We want to proof $C$ out of multiple sequent proof rules $A_1, A_2, ..., A_n$ with the rule $r$. If there is no $A$ above the line, the proof rule is an axiom. The order of proof rules in $A$ is important and not permutable.
+
+To build a complete proof, all proof rules must be proven up to an axiom.
 
 
 \subsubsection{Definitions}
@@ -263,7 +263,15 @@ The $\equalhat$-Sign denotes a syntactic equivalence.
 
 \subsubsection{Additional Proof Rules}
 
-Additional proof rules for operators: %TODO: Slide 12
+There are additional proof rules, that are based on the newly introduced logical operators can now be derived:
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\linewidth]{images/pc_additional_proof_rules}
+\caption{Additional Proof Rules of PC}
+\label{fig:pcadditionalproofrules}
+\end{figure}
+
 
 
 \subsection{First order Predicate Calculus}
@@ -575,6 +583,8 @@ Horn Clauses is a clause with at most one un-negated (aka positive) literal. The
 
 
 A Horn Formula is a Horn Clause in CNF.
+
+%TODO: Often used examples like, append, reverse, member(of), delete
 
 \section{Lambda calculus}
 
