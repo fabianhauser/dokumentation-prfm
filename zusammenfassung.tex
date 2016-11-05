@@ -18,6 +18,7 @@
 % Dokumentinformationen
 \newcommand{\SUBJECT}{Zusammenfassung}
 \newcommand{\TITLE}{Programmieren und Formale Methoden}
+\def\tabmath\[#1\]{\vspace{2ex}$\displaystyle#1$}
 
 \loadglsentries{glossar}
 
@@ -212,38 +213,36 @@ In this example, H, $P$ and $Q$ are meta-variables that need to be initiated wit
 Commas, like in the example $\text{H}, P \vdash C$, are used to create a new set containing alle elements from H and $P$.
 
 \subsubsection{Proof Rules of basicPC}
-%% TODO
-%\begin{table}[h]
-%	\centering
-%	\begin{tabu} to \linewidth {l l}
-%		\toprule
-%		Formula & Description \\
-%		\midrule
-%		\[ \frac{}{H,P \vdash P} hyp \] &
-%			If P is in hypothesis and goal the sequent is proven \\
-%		\[ \frac{H \vdash Q}{\text{H},P \vdash Q} mon \] &
-%			We can leave out individual Hypotheses \\
-%		\[ \frac{H \vdash P \mathSpaceSeparator \text{H}, P \vdash Q \text{H} \vdash Q cut \] &
-%			Allows you to introduce lemmas to simplify proving  $H \vdash Q$ \\
-%		\[ \frac{}{H, \bot \vdash P} \bot hyp \] &
-%			With an inconsistent system, you are able to prove anything. \\
-%		\[ \frac{H, \neg P \vdash \bot}{H \vdash P} contr \] &
-%			Proof by contradiction: If we assume P is false, our hypotheses are inconsistent. \\
-%		\[ \frac{H, P \vdash \bot}{H \vdash \neg P} \neg goal \] &
-%			negations can ''jump'' over turnstile \\
-%		\[ \frac{H \vdash P}{H, \neg P \vdash Q} \neg hyp \] &
-%			negations can ''jump'' over turnstile \\
-%		\[ \frac{H \vdash P \mathSpaceSeparator H \vdash Q}{H \vdash P \land Q} \land goal \] &
-%			If we want to prove $P \land Q$ , we can prove $P$ and $Q$ separately. \\
-%		\[ \frac{H,P,Q \vdash R}{H,P \land Q \vdash R} \land hyp \] &
-%			If we have a conjunction in Hypothesis, we can assume the Hypotheses separately \\
-%	\bottomrule
-%	\end{tabu}
-%	
-%	\label{tbl:ProofRulesBasicPC}
-%	\caption{Proof Rules of basicPC}
-%\end{table}
-%
+\begin{table}[h]
+	\centering
+	\begin{tabu} to \linewidth {l X}
+		\toprule
+		Formula & Description \\
+		\midrule
+		\tabmath\[\frac{}{\text{H},P \vdash P} hyp \] &
+			If P is in hypothesis and goal the sequent is proven \\
+		\tabmath\[ \frac{\text{H} \vdash Q}{\text{H},P \vdash Q} mon \] &
+			We can leave out individual Hypotheses \\
+		\tabmath\[ \frac{\text{H} \vdash P \mathSpaceSeparator \text{H}, P \vdash Q}{\text{H} \vdash Q} cut \] &
+			Allows you to introduce lemmas to simplify proving  $H \vdash Q$ \\
+		\tabmath\[ \frac{}{\text{H}, \bot \vdash P} \bot hyp \] &
+			With an inconsistent system, you are able to prove anything. \\
+		\tabmath\[ \frac{\text{H}, \neg P \vdash \bot}{\text{H} \vdash P} contr \] &
+			Proof by contradiction: If we assume P is false, our hypotheses are inconsistent. \\
+		\tabmath\[ \frac{\text{H}, P \vdash \bot}{\text{H} \vdash \neg P} \neg goal \] &
+			negations can ''jump'' over turnstile \\
+		\tabmath\[ \frac{\text{H} \vdash P}{\text{H}, \neg P \vdash Q} \neg hyp \] &
+			negations can ''jump'' over turnstile \\
+		\tabmath\[ \frac{\text{H} \vdash P \mathSpaceSeparator \text{H} \vdash Q}{\text{H} \vdash P \land Q} \land goal \] &
+			If we want to prove $P \land Q$ , we can prove $P$ and $Q$ separately. \\
+		\tabmath\[ \frac{\text{H},P,Q \vdash R}{\text{H},P \land Q \vdash R} \land hyp \] &
+			If we have a conjunction in Hypothesis, we can assume the Hypotheses separately \\
+		\bottomrule
+	\end{tabu}
+	\label{tbl:ProofRulesBasicPC}
+	\caption{Proof Rules of basicPC}
+\end{table}
+
 
 \subsubsection{Operators}
 
