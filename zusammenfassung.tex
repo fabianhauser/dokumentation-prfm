@@ -659,15 +659,17 @@ We have the same system of free and bound variables as in BasicPC:
 
 LC contains only one proof rule schema of major significance: $\beta$-reduction.  This rule defines what function applications means in the context of the lambda calculus.
 
+\[
+\frac{}{\text{H} \vdash (\lambda x. M ) N = \left[x := N\right] M} \beta
+\]
+
 It means that we can prove $(\lambda y.y) 5$ is the same as $5$, because we replace the bound variable $y$ (literally the first letter after the $\lambda$) in the statement after the dot.
 
-\begin{figure}[H] %TODO: Rewrite as real formula.
-\centering
-\includegraphics[width=0.5\linewidth]{images/beta_reduction}
-\caption{Beta reduction rule}
-\label{fig:betareduction}
-\end{figure}
-
+It is used to generate qualities such as:
+\begin{align*}
+(\lambda x.x) a &= a \\
+(\lambda x . x b c) a &= a b c
+\end{align*}
 
 We can simply apply this proof with $\because$, for example:
 
