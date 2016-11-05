@@ -303,11 +303,22 @@ $x$ is a bound variable: it is just a place holder. It's name has no significanc
 $y$ is a free variable that can be assigned ''externally''.
 
 \subsubsection{Proof rules for basicFoPCe}
-
-%TODO: slide 8 VL first order predicate calculus
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{images/basicfopce_proof_rules}
+\caption{Proof rules of basicFoPCe}
+\label{fig:basicfopceproofrules}
+\end{figure}
 
 \subsubsection{Excursion: Computation using FoPCe}
-Example: We want to compute the reachability of nodes in a graph %TODO: evt graph zeichnen mit Tikz?
+Example: We want to compute the reachability of nodes in a graph
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.2\linewidth]{images/fopce_graph_excursion}
+\caption{Excursion: Computation using FoPCe Graph}
+\label{fig:fopcegraphexcursion}
+\end{figure}
 
 Step 1: Model the problem as a sequent in FoPCe \\
 
@@ -328,8 +339,14 @@ Our Queries: \\
 \end{align*}
 
 \subsubsection{Excursion: Equational Reasoning}
-Equational reasoning is a different style of a formal proof \textbf{equivalent} to FoPCe Proofs. It is however specialized fpr proofs \emph{only involving equality}.
-%TODO proof from slide 18 VL First order predicate Calculus
+Equational reasoning is a different style of a formal proof \textbf{equivalent} to FoPCe Proofs. It is however specialized for proofs \emph{only involving equality}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.8\linewidth]{images/fopce_equational_reasoning}
+\caption{Excursion: Equational Reasoning with equivalent FoPCe}
+\label{fig:fopceequationalreasoning}
+\end{figure}
 
 \section{Logic programming (Prolog)}
 A Prolog program consists of a knowledge base (i.e. an intelligent database), which consists od rules and facts, and a query.
@@ -350,7 +367,13 @@ Step 1: Model the argument as a sequent in FoPCe
 
 Step 2: Use Prolog to find a proof for the sequent
 
-%TODO code slide 8/9 VL Logic programming Introduction
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.6\linewidth]{images/prolog_logic_conversion}
+\caption{Prolog / Logic conversion ''Hello World''}
+\label{fig:prologlogicconversion}
+\end{figure}
+
 \subsection{Programming in Prolog}
 Prolog requires a different mindset, as it uses:
 \begin{itemize}
@@ -393,27 +416,43 @@ listens2music(butch);
 happy(butch).
 \end{lstlisting}
 
-\paragraph{Overview Logic}
+\paragraph{Overview Logic} \hfill \\ 
 
-%TODO
-%\begin{tabu}[l l l]
-%	& Prolog & Logic \\
-%	Implication & \lstinline|A :- B| & B $\implies$ A \\
-%	Conjunction & A, B & A $\land$ B \\
-%	Disjunction & A;B A $\lor$ B
-%\end{tabu}
+\begin{table}[H]
+	\centering
+	\begin{tabu} to \linewidth {l l l}
+		\toprule
+		What & Prolog & Logic \\
+		\midrule
+		Implication & \lstinline|A:-B| & B $\implies$ A \\
+		Conjunction & \lstinline|A,B| & A $\land$ B \\
+		Disjunction & \lstinline|A;B|  & A $\lor$ B \\
+		\bottomrule
+	\end{tabu}
+	\label{tbl:prologLogicOverview}
+	\caption{Prolog Logic Overview}
+\end{table}
 
 \subsubsection{Language Components}
 
 \paragraph{Atoms}
 
-%Todo: sLIDE 32 (lowercase or 'Asdf')
+Atoms can have following forms: 
+
+\begin{description}
+	\item[Lowercase word] \hfill \\
+		\lstinline|butch|, \lstinline|big_kahuna_burger| or \lstinline|playGuitar|
+	\item[Arbitrary sequence enclosed in single quotes] \hfill \\
+		\lstinline|'Vincent'|, \lstinline|'Five dollar shake'|, \lstinline|'@$%'|
+	\item[Sequence of special characters] \hfill \\
+		\lstinline|;..:-.|
+\end{description}
 
 \paragraph{Variables}
 
-%TODO: X, Y, Variable, \_tag
+Are written in Uppercase, e.g. \lstinline|woman(X).| or with a beginning underscore. Prolog tries to find all Facts (in this case, names of woman) that match \lstinline|X|.
 
-Are written in Uppercase, e.g. \lstinline|woman(X).| tries to find all Facts (in this case, names of woman) that match \lstinline|X|.
+Examples: \lstinline|X|, \lstinline|Y|, \lstinline|Variable|, \lstinline|Vincent|, \lstinline|_tag|
 
 In combination with a conjunction: \lstinline|loves(marsellus, X), woman(X).|
 
@@ -572,19 +611,17 @@ Prolog is based on a restricted subset of \emph{First order Predicate Calculus w
 
 Horn Clauses is a clause with at most one un-negated (aka positive) literal. They have better computational properties.
 
-\paragraph{Example}
-
-\begin{figure}[h]
+\paragraph{Example} \hfill \\
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.4\linewidth]{images/prolog_to_horn_formula}
 \caption{Prolog to Horn Formula transition}
 \label{fig:prologtohornformula}
 \end{figure}
 
-
 A Horn Formula is a Horn Clause in CNF.
 
-%TODO: Often used examples like, append, reverse, member(of), delete
+%TODO: Often used examples like, append, reverse, member(of), delete etc.
 
 \section{Lambda calculus}
 
