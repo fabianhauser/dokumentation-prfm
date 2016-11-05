@@ -579,6 +579,82 @@ A Horn Formula is a Horn Clause in CNF.
 
 \section{Lambda calculus}
 
+There are many variants of lambda calculus; but basically they all express computation based on function abstraction and application using variable binding and substitution. We currently only consider ''pure untyped'' lambda calculus.
+
+Reserved words of this language are: ''$\lambda$'', ''.'' , ''('' and '')''. The ''='' and ''$\vdash$'' word are also reserved for predicates.
+
+Haskell is based on Lambda Calculus.
+
+
+\subsection{Sequent LC}
+With LC, we also use the syntax $H \vdash G$. There are two language elements:
+
+\begin{description}
+	\item[Predicate $P$] $::= M=M$
+	\item[$\lambda$-Terms $M$] $::= \underbrace{x}_{\mathllap{\text{Variable}}} | \overbrace{\lambda x. M}^{\mathclap{\lambda \text{ abstraction  (anonymous function)}}} | \underbrace{M M}_{\mathrlap{\text{Application of one } \lambda \text{ -term to another}}}$
+\end{description}
+
+
+\subsubsection{Binding Rules}
+\begin{itemize}
+	\item $\lambda x. M_1 M_2$ represents $\lambda x.(M_1 M_2)$ (Application binds tighter than abstraction)
+	\item $M_1 M_2 M_3$ represents $(M_1 M_2) M_3$ (Application is left associative).
+\end{itemize}
+
+\subsubsection{Free and Bound Variables}
+
+We have the same system of free and bound variables as in BasicPC:
+
+\[
+	(\lambda \underbrace{y.y}_{\mathclap{\text{bound}}}) \underbrace{a b}_{\mathclap{\text{free}}}
+\]
+
+\subsubsection{$\beta$-reduction rule}
+
+LC contains only one proof rule schema of major significance: $\beta$-reduction.  This rule defines what function applications means in the context of the lambda calculus.
+
+It means that we can prove $(\lambda y.y) 5$ is the same as $5$, because we replace the bound variable $y$ (literally the first letter after the $\lambda$) in the statement after the dot.
+
+\begin{figure}[H] %TODO: Rewrite as real formula.
+\centering
+\includegraphics[width=0.5\linewidth]{images/beta_reduction}
+\caption{Beta reduction rule}
+\label{fig:betareduction}
+\end{figure}
+
+
+We can simply apply this proof with $\because$, for example:
+
+\[
+	\frac{(\lambda y.y) a b}{= a b} \because \beta
+\]
+
+\subsubsection{All LC rules}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{images/lc_rules}
+\caption{Overview lambda calculus rules}
+\label{fig:lcrules}
+\end{figure}
+
+
+\subsection{Computation in LC}
+Computation in lambda calculus is usually called ''reduction'': we make our statement easier.
+
+\subsubsection{Halting problem}
+
+We can represent endless loops in LC: $(\lambda x. x x) (\lambda x . x x)$. Therefore, the halting problem cannot be solved.
+
+\subsubsection{Functions}
+
+Functions in LC are first class citizens and can therefore be written like e.g. $\sin x$.
+
+How are functions with multiple arguments possible? Using $M M$, we can create expressions, that are applied to multiple statements. We create \emph{higher order} functions with nested functions. The first function returns a function etcetera.
+
+
+
+
 \section{Functional Programming (Haskell)}
 
 \section{Multi-Paradigm Programming (Scala)}
