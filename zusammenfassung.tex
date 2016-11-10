@@ -640,11 +640,14 @@ With LC, we also use the syntax $H \vdash G$. There are two language elements:
 	\item[$\lambda$-Terms $M$] $::= \underbrace{x}_{\mathllap{\text{Variable}}} | \overbrace{\lambda x. M}^{\mathclap{\lambda \text{ abstraction  (anonymous function)}}} | \underbrace{M M}_{\mathrlap{\text{Application of one } \lambda \text{ -term to another}}}$
 \end{description}
 
+To resolve a counstruct, apply the Grammar Rules from the leftmost one to the right.
 
 \subsubsection{Binding Rules}
 \begin{itemize}
-	\item $\lambda x. M_1 M_2$ represents $\lambda x.(M_1 M_2)$ (Application binds tighter than abstraction)
-	\item $M_1 M_2 M_3$ represents $(M_1 M_2) M_3$ (Application is left associative).
+	\item $\lambda x. M_1 M_2$ represents $\lambda x.(M_1 M_2)$ \hfill \\
+		(Application binds tighter than abstraction)
+	\item $M_1 M_2 M_3$ represents $(M_1 M_2) M_3$ \hfill \\
+		(Application is left associative: We try to make the left $M$ the largest).
 \end{itemize}
 
 \subsubsection{Free and Bound Variables}
@@ -700,6 +703,74 @@ Functions in LC are first class citizens and can therefore be written like e.g. 
 
 How are functions with multiple arguments possible? Using $M M$, we can create expressions, that are applied to multiple statements. We create \emph{higher order} functions with nested functions. The first function returns a function etcetera.
 
+
+
+\subsubsection{$\delta$-reduction}
+$\delta$-reducation is substitution of defined symbols with its definition.
+
+Example. 
+
+\begin{align*}
+&square(square(5)) & \because \delta \\
+&square(\lambda x. * x x) & \because \delta \\
+& (\lambda x. * x x)(\lambda x. * x x) & 
+\end{align*}
+
+\subsubsection{Higher-Order Functions}
+
+Functions, that take a function as input and/or returns a function as output.
+
+Example: $\lambda f . \lambda x. f (f x)$
+
+\subsubsection{Evaluation Strategies: redex}
+\begin{description}
+	\item[redex] reducible expressions (andy $\beta$ or $\delta$ reducable subterm)
+	\item[evaluation strategy] order in which $\lambda$ are reduced.
+\end{description}
+
+There are multiple possible reduction (=evaluation) strategies. It is important to note tough, that some ways are not resolvable and other ones are.
+
+In fact, there are as much possible strategies as there are $\beta$ or $\delta$ terms.
+
+\paragraph{Innermost-first}
+
+\begin{enumerate}
+	\item The innermost redex is reduced first.
+	\item Tiebreaker: In case there is more than one innermost redex, the leftmost-innermost redex is reduced first.
+\end{enumerate}
+
+%TODO: Fixed example from slides (03_01_Comput LC, slide 16; wait on fix)
+
+\begin{itemize}
+	\item A function's arguments are substituted into the body of a functon \emph{after} they are reduced.
+	\item A function's arguments are reduced exactly once.
+\end{itemize}
+
+\paragraph{Outermost-first}
+
+\begin{enumerate}
+	\item The outermost index is reduced first
+	\item Tiebreaker: In case there is more than one outermost redex, the left-outermost redex is reduced first.
+\end{enumerate}
+
+%TODO: Fixed example from slides (03_01_Comput LC, slide 17; wait on fix)
+
+\begin{itemize}
+	\item A function's arguments are substituted int othe body of a function \emph{before} they are reduced.
+	item A function's arguments are reduced as often as they are needed.
+\end{itemize}
+
+\paragraph{Innermost vs. Outermost}
+
+It is not clear, which evaluation strategy is better on first sight; it depends largely on the term we want to reduce. Usually Innermost first leads to shorter reductions, but does not work in every case.
+
+\subsubsection{Encoding Data and Operations / Boolean Algebra}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.7\linewidth]{images/lc_data_operations_algebra}
+\caption{Lambda Calculus Data, Operations and Boolean Algebra}
+\label{fig:lcdataoperationsalgebra}
+\end{figure}
 
 
 
