@@ -198,7 +198,7 @@ Proof Rule schemas represent an infinite number of proof rules of the same form.
 \paragraph{Example} 
 \[
 	\frac{
-		\text{H} \vdash P \mathSpaceSeparator \text{H}, P \vdash C
+		\text{H} \vdash P \mathSpaceSeparator \text{H}, P \vdash Q
 	 }{
 		\text{H} \vdash Q
 	} cut
@@ -210,7 +210,8 @@ In this example, H, $P$ and $Q$ are meta-variables that need to be initiated wit
 	Q &:= C \\
 \end{align*}
 
-Commas, like in the example $\text{H}, P \vdash C$, are used to create a new set containing alle elements from H and $P$.
+%TODO: Don't understand this!
+Commas, like in the example $\text{H}, P \vdash Q$, are used to create a new set containing all elements from H and $P$.
 
 \subsubsection{Proof Rules of basicPC}
 \begin{table}[h]
@@ -220,7 +221,7 @@ Commas, like in the example $\text{H}, P \vdash C$, are used to create a new set
 		Formula & Description \\
 		\midrule
 		\tabmath\[\frac{}{\text{H},P \vdash P} hyp \] &
-			If P is in hypothesis and goal the sequent is proven \\
+			If P is in hypothesis and goal, the sequent is proven \\
 		\tabmath\[ \frac{\text{H} \vdash Q}{\text{H},P \vdash Q} mon \] &
 			We can leave out individual Hypotheses \\
 		\tabmath\[ \frac{\text{H} \vdash P \mathSpaceSeparator \text{H}, P \vdash Q}{\text{H} \vdash Q} cut \] &
@@ -263,7 +264,7 @@ The $\equalhat$-Sign denotes a syntactic equivalence.
 
 \subsubsection{Additional Proof Rules}
 
-There are additional proof rules, that are based on the newly introduced logical operators can now be derived:
+Additional proof rules, that are based on the newly introduced logical operators can now be derived:
 
 \begin{figure}[h]
 \centering
@@ -320,23 +321,36 @@ Example: We want to compute the reachability of nodes in a graph
 \label{fig:fopcegraphexcursion}
 \end{figure}
 
-Step 1: Model the problem as a sequent in FoPCe \\
+\textbf{Step 1: Model the problem as a sequent in FoPCe } \newline
 
-Nodes in a graph have a relationship \\
+Nodes in a graph have a relationship. Therefore we can say: \newline
+
 $R(x,y)$\qquad Denotes that node y can be reached from node x\\
 
-We need a set of Hypotheses 'G' \\
-Reflexive: $\forall x. R(x,x)$ \\
-Transitiv: $\forall x.\forall y.\forall z. R(x,y) \land R(y,z) \Rightarrow R(x,z)$
+General Properties of this Relation R are added to our set of hypotheses 'G':
+\begin{itemize}
+	\item Reflexive: $\forall x. R(x,x)$
+	\item Transitiv: $\forall x.\forall y.\forall z. R(x,y) \land R(y,z) \Rightarrow R(x,z)$
+\end{itemize}
 
-Our specific Graph:\\
-$R(a,b) \qquad R(b,c) \qquad R(c,d) \qquad R(p,q)$\\
+Then we add our specifc graph to 'G':
+\begin{itemize}
+	\item $R(a,b) \qquad R(b,c) \qquad R(c,d) \qquad R(p,q)$
+\end{itemize}
 
-Our Queries: \\
+
+Our queries i.e. sequents:
 \begin{align*}
 	&\text{Is node a reachable from node d:} &G &\vdash R(a,d)\\
 	&\text{Which nodes are reachable from node a:} &G &\vdash \exists x.R(a,x)
 \end{align*}
+\textbf{Step 2: Perform proofs using rules from FoPCe} \\
+\textbf{Step 3: Extract result of computation from proofs}
+\begin{align*}
+	&\text{If a complete proof is possible} &\Rightarrow result &= true\\
+	&\text{Otherwise} &\Rightarrow result &= false 
+\end{align*}
+
 
 \subsubsection{Excursion: Equational Reasoning}
 Equational reasoning is a different style of a formal proof \textbf{equivalent} to FoPCe Proofs. It is however specialized for proofs \emph{only involving equality}.
@@ -349,23 +363,23 @@ Equational reasoning is a different style of a formal proof \textbf{equivalent} 
 \end{figure}
 
 \section{Logic programming (Prolog)}
-A Prolog program consists of a knowledge base (i.e. an intelligent database), which consists od rules and facts, and a query.
+A Prolog program consists of a knowledge base (i.e. an intelligent database), with rules and facts, and a query.
 If you run the query, Prolog will answer with either “true” or “false”, depending on whether a proof could be found.
 \subsection{First Prolog program}
 We want to compute the validity of this syllogism: \\
 All humans are mortal. \\
 Socrates is human. \\
 Therefore, Socrates is mortal.\\
-Step 1: Model the argument as a sequent in FoPCe
 
-\[
-\text{H(x): x is human}\\
-\text{M(x): x is mortal}\\
-\text{s: Sokrates}\\
-\forall x.H(x) \Rightarrow M(x),H(s) \vdash M(s)
-\]
+\textbf{Step 1: Model the argument as a sequent in FoPCe}
+\begin{align*}
+	\text{H(x)}&\text{: x is human}\\
+	\text{M(x)}&\text{: x is mortal}\\
+	\text{s}&\text{: Sokrates}\\
+	\forall x.H(x) \Rightarrow& M(x),H(s) \vdash M(s)
+\end{align*}
 
-Step 2: Use Prolog to find a proof for the sequent
+\textbf{Step 2: Use Prolog to find a proof for the sequent}
 
 \begin{figure}[H]
 \centering
@@ -445,7 +459,7 @@ Atoms can have following forms:
 	\item[Arbitrary sequence enclosed in single quotes] \hfill \\
 		\lstinline|'Vincent'|, \lstinline|'Five dollar shake'|, \lstinline|'@$%'|
 	\item[Sequence of special characters] \hfill \\
-		\lstinline|;..:-.|
+		\lstinline|: , ; . :-|
 \end{description}
 
 \paragraph{Variables}
@@ -471,9 +485,9 @@ You can define the same function with different arities. They are stored as e.g.
 
 \paragraph{Unification}
 
-Two terms unify, if they are \emph{exactly} the same. If you have a Variable in one Term, the instanceiation (with a concrete, equal value) is unified.
+Two terms unify, if they are \emph{exactly} the same. If you have a Variable in one Term, the instantiation (with a concrete, equal value) is unified.
 
-In Prolog, you can check unification with the \lstinline|=|-Symbol. E.g. \lstinline|mia = mia.| Important: the Term must be finite (or Prolog tries to output a infinite function nesting.)
+In Prolog, you can check unification with the \lstinline|'='|-Symbol. E.g. \lstinline|mia = mia.| Important: the Term must be finite (or Prolog tries to output an infinite function nesting.)
 
 Some more examples:
 \begin{lstlisting}[language=Prolog]
@@ -486,28 +500,28 @@ Y = f(e)
 yes
 \end{lstlisting}
 
-We can enforce specific terms to to unify (even if they are infinite):
+We can enforce specific terms to unify (even if they are infinite):
 \lstinline|unify_with_occurs_check(father(X),X)|
 
 \paragraph{Parse Tree}
 
-Runs from the left to the right and creates according subtrees.
+Runs from left to right and creates corresponding subtrees.
 
 
 \subsubsection{Recursion}
 
-A statement \lstinline|p:-p.| does logically make sense - but will result in a endless recursion executed in prolog.
+A statement \lstinline|p:-p.| does logically make sense - but will result in an endless recursion executed in prolog.
 
 \paragraph{Building a recursion} \hfill \\
 
-To build a recursion, take following steps:
+To build a recursion, take the following steps:
 
 \begin{enumerate}
 	\item Write down the signature of the predicate
 	\item Choose parameters over which you want to perform recursion
 	\item Identify and write down the case distinctions for the recursion parameters on the left hand side of the rules.
 	\item The case distinctions consist of \emph{base} cases and \emph{recursive} cases.
-	\item For each recursive case, note down the predicate applied to the input parameter(s) made ''smaller''. The predicate may be used within the right hand side of your rule.
+	\item For each recursive case, write down the predicate applied to the input parameter(s) made ''smaller''. The predicate may be used within the right hand side of your rule.
 	\item Complete your rules.
 	\item Check that your rules are valid properties of the predicate you want to define.
 \end{enumerate}
@@ -551,7 +565,7 @@ member(X,[H|T]):- member(X,T).
 
 \subsubsection{Arithmetics}
 
-With Prolog, you can do following mathematical operations: $+$, $*$, $-$, $/$, $mod(7,2)$. These are really all \lstinline|/2|-expressions. To ''assign'' results, you have to use \lstinline|is/2|.
+With Prolog, you can do the following mathematical operations: $+$, $*$, $-$, $/$, $mod(7,2)$. These are really all \lstinline|/2|-expressions. To ''assign'' results, you have to use \lstinline|is/2|.
 
 Also, it is possible to compare integers:
 \begin{figure}[h]
@@ -601,10 +615,50 @@ length(List, Length):- acclen(List, 0, Length).
 \label{fig:parsetreeacclentailrecursion}
 \end{figure}
 
-\paragraph{Example: Maximum of integer list \lstinline|max([1,2,3]).|}
-
-%TODO: Notizen \mu
-
+\paragraph{Example: Maximum of integer list \lstinline|max([1,2,3]).|}\hfill \\
+%TODO: Notizen \mu --> meinst du das?
+We are going to define a predicate that takes two arguments, and is true when:
+\begin{itemize}
+	\item The first argument is a list of integers
+	\item The second argument is the highest integer in the list
+\end{itemize}
+Basic idea:
+\begin{itemize}
+	\item We will use an accumulator.
+	\item The accumulator keeps track of the highest value encountered so far.
+	\item If we find a higher value, the accumulator will be updated.
+\end{itemize}
+\begin{table}[h]
+	\centering
+	\begin{tabu} to \linewidth {p{7cm} p{7cm}}
+		\toprule
+		normal Recusion & Tail Recursion \\
+		\midrule
+		\tabmath\[max(\_,\_)\] &
+		\tabmath\[max(\_,\_, \_)\] \\
+		1. list of integers, \newline 
+		2. the maximum of said list\newline  &
+		1. list of integers, \newline 
+		2. Accumulator \newline
+		3. the maximum of said list \\
+		\midrule
+		base-case: \tabmath\[ max( [ H ] , H). \] &
+		base-case: \tabmath\[ max( [ \: ] , Acc, Acc). \] \\
+		recursion: \newline
+		max ([H|T],MT) :- max(T, MT),\newline
+		\hspace*{80pt}  MT > H. \newline
+		max([H|T],H) :- max(T,MT),\newline
+		\hspace*{70pt} H >= MT.&
+		recursion: \newline
+		max([H|T],A,M):- H > A \newline
+		\hspace*{80pt} max(T,H,M). \newline
+		max([H|T],A,M):- H <= A \newline
+		\hspace*{80pt} max(T,A,M), \\
+		\bottomrule
+	\end{tabu}
+	\label{tbl:ProofRulesBasicPC}
+	\caption{Proof Rules of basicPC}
+\end{table}
 \subsection{Compiling Prolog Programs}
 
 Prolog is based on a restricted subset of \emph{First order Predicate Calculus with Equality (FoPCe)}.
@@ -614,7 +668,7 @@ Horn Clauses is a clause with at most one un-negated (aka positive) literal. The
 \paragraph{Example} \hfill \\
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.4\linewidth]{images/prolog_to_horn_formula}
+\includegraphics[width=0.6\linewidth]{images/prolog_to_horn_formula}
 \caption{Prolog to Horn Formula transition}
 \label{fig:prologtohornformula}
 \end{figure}
@@ -627,7 +681,7 @@ A Horn Formula is a Horn Clause in CNF.
 
 There are many variants of lambda calculus; but basically they all express computation based on function abstraction and application using variable binding and substitution. We currently only consider ''pure untyped'' lambda calculus.
 
-Reserved words of this language are: ''$\lambda$'', ''.'' , ''('' and '')''. The ''='' and ''$\vdash$'' word are also reserved for predicates.
+Reserved words of this language are: '$\lambda$', '.' , '(' and ')'. The '=' and '$\vdash$' word are also reserved for predicates.
 
 Haskell is based on Lambda Calculus.
 
@@ -645,7 +699,7 @@ To resolve a counstruct, apply the Grammar Rules from the leftmost one to the ri
 \subsubsection{Binding Rules}
 \begin{itemize}
 	\item $\lambda x. M_1 M_2$ represents $\lambda x.(M_1 M_2)$ \hfill \\
-		(Application binds tighter than abstraction)
+		(Application binds tighter than abstraction: first resolve abstraction then Application!)
 	\item $M_1 M_2 M_3$ represents $(M_1 M_2) M_3$ \hfill \\
 		(Application is left associative: We try to make the left $M$ the largest).
 \end{itemize}
