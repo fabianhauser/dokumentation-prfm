@@ -616,7 +616,6 @@ length(List, Length):- acclen(List, 0, Length).
 \end{figure}
 
 \paragraph{Example: Maximum of integer list \lstinline|max([1,2,3]).|}\hfill \\
-%TODO: Notizen \mu --> meinst du das?
 We are going to define a predicate that takes two arguments, and is true when:
 \begin{itemize}
 	\item The first argument is a list of integers
@@ -793,7 +792,12 @@ In fact, there are as much possible strategies as there are $\beta$ or $\delta$ 
 	\item Tiebreaker: In case there is more than one innermost redex, the leftmost-innermost redex is reduced first.
 \end{enumerate}
 
-%TODO: Fixed example from slides (03_01_Comput LC, slide 16; wait on fix)
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\linewidth]{images/lc_innermost_reduction}
+\caption{Example Innermost Reduction}
+\label{fig:lcinnermostreduction}
+\end{figure}
 
 \begin{itemize}
 	\item A function's arguments are substituted into the body of a functon \emph{after} they are reduced.
@@ -807,7 +811,12 @@ In fact, there are as much possible strategies as there are $\beta$ or $\delta$ 
 	\item Tiebreaker: In case there is more than one outermost redex, the left-outermost redex is reduced first.
 \end{enumerate}
 
-%TODO: Fixed example from slides (03_01_Comput LC, slide 17; wait on fix)
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.4\linewidth]{images/lc_outermost_reduction}
+\caption{Example Outermost Reduction}
+\label{fig:lcoutermostreduction}
+\end{figure}
 
 \begin{itemize}
 	\item A function's arguments are substituted int othe body of a function \emph{before} they are reduced.
