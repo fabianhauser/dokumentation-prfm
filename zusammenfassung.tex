@@ -845,6 +845,166 @@ It is not clear, which evaluation strategy is better on first sight; it depends 
 
 \section{Functional Programming (Haskell)}
 
+\subsection{Introduction to Functional Programming}
+Functional Programming has special properties:
+
+\begin{itemize}
+	\item Referential Transparency: WYSIWYG for programmers.
+	\item No (mutable) Variables
+	\item No assignments
+	\item No imperative control structures
+	\item All data structures are immutable
+\end{itemize}
+
+\subsubsection{The problem with mutable state}
+\begin{itemize}
+	\item Every part can change the underlying application state
+	\item Code is dependend on the execution order
+	\item parallel execution is very hard!
+	\item not modular
+\end{itemize}
+
+\subsubsection{Functions}
+
+\begin{itemize}
+	\item Are first class citizens
+	\item just like any other values (e.g. \lstinline|1|, \lstinline|true|, \lstinline|"name"|
+	\item Can be anonymous
+	\item Can be input \& output to other functions (higher-order)
+	\item Can be composed in powerfull ways (e.g. \lstinline|f o g|
+	\item Advantage: Better ''glue''
+\end{itemize}
+
+\subsubsection{Example: Factorial}
+
+\paragraph{Algorithm} \hfill \\
+\begin{lstlisting}
+factor(0) = 1
+factor(n) = n * fact(n-1)
+\end{lstlisting}
+
+\paragraph{Classical} \hfill \\
+(it's verry difficult)
+\begin{lstlisting}
+n := input
+c := 1
+while(n > 0) {
+	c := c * n;
+	n := n -1;
+}
+output := c;
+\end{lstlisting}
+
+\paragraph{Functional version} \hfill \\
+\begin{lstlisting}
+fact 0 = 1
+fact n = n * (fact (n - 1))
+\end{lstlisting}
+
+%TODO: Anything here? (From slide s07_Haskell)
+
+
+\subsubsection{Example: Fibonacci}
+
+\begin{lstlisting}[language=haskell]
+fib 0 = 0
+fib 1 = 1
+fib n = (fib (n-1)) + (fib (n-2))
+
+fibsN n = map fib [0..n]
+
+fibs = map fib [0..]
+-- take 10 fibs -> first 10 elements of endless fibs
+\end{lstlisting}
+
+\subsubsection{Example: Quicksort}
+\begin{figure}
+\centering
+\includegraphics[width=0.5\linewidth]{images/ha_quicksort}
+\caption{Haskell Quicksort implementation}
+\label{fig:haquicksort}
+\end{figure}
+
+
+\subsection{GHCI Usage}
+\begin{lstlisting}[language=haskell]
+-- load file.hs
+:l "file.hs"
+-- reload files
+:reload
+:r
+-- get type of expression
+:type "abc"
+:t fib
+\end{lstlisting}
+
+\subsection{Language Components}
+
+\subsubsection{Lists}
+
+\paragraph{Standard Prelude}  \hfill \\
+\begin{lstlisting}[language=haskell]
+-- get first element
+> head [1, 2, 3]
+1
+
+-- get all but first element
+> tail [1, 2, 3]
+[2,3]
+
+-- get element at position 2
+> [1, 2, 3] !! 2
+3
+
+-- take a number of elements from the start
+> take 2 [1, 2, 3]
+[1,2]
+
+-- remove element from list
+> drop 2 [1, 2, 3]
+[1,2]
+
+-- list length
+length [1, 2, 3]
+3
+
+-- list sum
+> sum [1, 2, 3]
+6
+
+-- list product
+> product [1, 2, 3]
+6
+
+-- append two lists
+> [1, 2, 3] ++ [4, 5]
+[1,2,3,4,5]
+
+-- reverse
+> reverse [1,2,3]
+[3,2,1]
+\end{lstlisting}
+
+\paragraph{Examples} \hfill \\
+\begin{lstlisting}[language=haskell]
+data Lst = Nil | Cons a (Lst a)
+  deriving (Show)
+
+l1 = Cons 'a' (Cons 'b' Nil)
+
+-- List length
+len Nil = 0
+len (Cons x xs) = 1 + (len xs)
+
+\end{lstlisting}
+
+
+
+
+
+
+
+
 \section{Multi-Paradigm Programming (Scala)}
 
 
