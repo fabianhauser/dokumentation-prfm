@@ -983,6 +983,19 @@ length [1, 2, 3]
 -- reverse
 > reverse [1,2,3]
 [3,2,1]
+
+-- add item prefix
+> 1 :  (2 :  (3 : []))
+[1,2,3]
+\end{lstlisting}
+
+\paragraph{Functions on lists} \hfill \\
+\begin{lstlisting}[language=Haskell]
+head :: [a] -> a
+head (x : _) = x
+
+tail :: [a] -> [a]
+tail (_ : xs) = xs
 \end{lstlisting}
 
 \paragraph{Examples} \hfill \\
@@ -998,12 +1011,197 @@ len (Cons x xs) = 1 + (len xs)
 
 \end{lstlisting}
 
+\subsubsection{Variables}
+
+Start with a lower case letter. List variables end usually in a s, e.g. \lstinline|xs|.
+
+\subsubsection{Indentation}
+
+The indentation is relevant in Haskell. It is used to denote grouping, which could also be done with braces.
+
+%TODO: example from slides
+\begin{lstlisting}[language=Haskell]
+
+\end{lstlisting}
+
+\subsubsection{Types and Values}
+
+A Type has multiple possible values. For example, the type \lstinline|Bool| has two possible values \lstinline|True| and \lstinline|False|.
 
 
+If evaluating an expression \lstinline|e| would produce a value of type \lstinline|t|, then \lstinline|e| has type \lstinline|t|, written: \lstinline[language=Haskell]|e::t|
+
+Applying a function to the wrong type is called a \emph{type error}. Type errors in Code are always found at compile time.
+
+\subsubsection{''Primitive'' Types}
+
+\begin{description}
+	\item[Bool] 
+	\item[Char]
+	\item[String]
+	\item[Int]
+	\item[Integer]
+	\item[Float]
+\end{description}
+
+\paragraph{Type classes}
+
+\begin{itemize}
+	\item[Num] Numeric types
+	\item[Eq] Equality types
+	\item[Ord] Ordered types
+\end{itemize}
+
+\paragraph{Lists} \hfill \\
+
+Lists are represented with square brackets, e.g.: \lstinline|[False, True, False] :: [Bool]| or \hfill \\ \lstinline|['a', 'b', 'c'] :: [Char]|. We can also have nested lists: \lstinline|[['a'], ['b', 'c']] :: [[Char]]|
+
+\paragraph{Tuples} \hfill \\
+
+\lstinline[language=Haskell]|(False, True) :: (Bool, Bool)|
 
 
+\subsection{Functions}
+
+\subsubsection{Introduction}
+
+\begin{lstlisting}[language=Haskell]
+not :: Bool -> Bool
+even :: Int -> Bool
+\end{lstlisting}
+
+For functions with multiple parameters it is better to use currying for multiple arguments:
+\begin{lstlisting}[language=Haskell]
+add' :: Int -> (Int -> Int)
+add' x y = x + y
+\end{lstlisting}
+
+Function Types associate to the right. That means that the following two definitions are equal
+\begin{lstlisting}[language=Haskell]
+Int -> Int -> Int -> Int
+Int -> (Int -> (Int -> Int))
+\end{lstlisting}
+
+In contrast, function application is left associate:
+\begin{lstlisting}
+mult x y z
+((mult x) y) z
+\end{lstlisting}
 
 
+\paragraph{Polymorphic Functions} \hfill \\
+Polymorphic types are usually denoted with a lower case letter.
+\begin{lstlisting}[language=Haskell]
+length :: [a] -> Int
+-- [a] is a list of any type.
+\end{lstlisting}
+
+It is possible to restrict the type class:
+\begin{lstlisting}[language=Haskell]
+(+) :: Num a => a -> a -> a
+\end{lstlisting}
+
+One may think of this like Type-Interfaces and Generics in e.g. Java.
+
+In this example, by using \lstinline|1 + 2|, we instantiate \lstinline|a =  Int|. (So both types need to be the same.)
+
+\paragraph{Infix operators} \hfill \\
+
+To denote infix operators like \lstinline|+|, the function name must be written in brackets: \lstinline|(+)|
+
+\subsubsection{Function definition styles}
+
+\paragraph{Pattern Matching} \hfill \\
+The most used method; particularly useful to define recursive functions.
+
+The ordering is important!
+
+\begin{lstlisting}[language=Haskell]
+not :: Bool -> Bool
+not False = True
+not True = False
+\end{lstlisting}
+
+\subparagraph{Infix} \hfill \\
+
+\begin{lstlisting}[language=Haskell]
+(&&) :: Bool -> Bool -> Bool
+True && True = True
+True && False = False
+False && True = False
+False && False = False
+\end{lstlisting}
+
+Or more shortly:
+\begin{lstlisting}[language=Haskell]
+(&&) :: Bool -> Bool -> Bool
+True && True = True
+_ && _ = False
+\end{lstlisting}
+
+\begin{lstlisting}[language=Haskell]
+(&&) :: Bool -> Bool -> Bool
+True && b = b
+False && _ = False
+\end{lstlisting}
+
+\paragraph{Conditional Expression} \hfill \\
+Are great to write simple \lstinline|if .. then .. else| statements. Note that in Haskell one always must define the \lstinline|else| case.
+\begin{lstlisting}[language=Haskell]
+abs :: Int -> Int
+abs n 0 if n >= 0 then n else -n
+\end{lstlisting}
+
+\paragraph{Guarded Equation} \hfill \\
+
+Are a bit like definitions from mathematical textbooks. (probably least used in Haskell
+\begin{lstlisting}[language=Haskell]
+abs n
+    | n >= 0 = n
+    | otherwise = -n
+\end{lstlisting}
+
+
+\subsubsection{Lambda Expressions}
+Lambda expressions, also called nameless expressions:
+\begin{lstlisting}[language=Haskell]
+\ x -> x + x
+\end{lstlisting}
+
+\paragraph{Example I} \hfill \\
+\lstinline|add x y = x + y| means \lstinline|add = \ x -> (\ y -> x + y)|
+
+\paragraph{Example II} \hfill \\
+\begin{lstlisting}[language=Haskell]
+const :: a -> b -> a
+const x _ = x 
+\end{lstlisting}
+is more naturally defined by
+
+\begin{lstlisting}[language=Haskell]
+const :: a -> (b -> a)
+const x = \ _ -> x
+\end{lstlisting}
+
+
+\subsection{List Comprehension}
+
+Similar to set comprehension in mathematics; $\left\{x^2 | x \in \left\{1..5\right\}\right\}$ can be written as:
+
+\begin{lstlisting}[language=Haskell]
+[x ^2 | x <- [1 .. 5]]
+\end{lstlisting}
+
+The Expression \lstinline|x <- [1..5]| is called a \emph{generator}.
+
+%TODO: Cover slides 04_05 Slide 6 ff
+
+\paragraph{Example: Primes} \hfill \\
+\begin{lstlisting}[language=Haskell]
+factors n = [x | x <- [1 .. n], n `mod` x == 0]
+prime n = factors n == [1, n]
+primes n = [x | x <- [2 .. n], prime x]
+\end{lstlisting}
 
 \section{Multi-Paradigm Programming (Scala)}
 
