@@ -1203,6 +1203,193 @@ prime n = factors n == [1, n]
 primes n = [x | x <- [2 .. n], prime x]
 \end{lstlisting}
 
+
+\subsection{A recipe for recursion}
+
+Write down the type signature of the function you want to define so that you know that you are doing.
+\begin{enumerate}
+\item Choose the parameter(s) over which you want to perform the recursion.
+\item Identify and note the case distinctions for the input parameter(s) on the left hand side of the definitions.
+\item the case distinction consists of the \emph{base} case and \emph{recursive} cases
+\item For each recursive case, note down the function applied to the input made ''smaller'' (with the right hand side of your definition)
+\item Complete the right hand side of the definition
+\item Check that the inferred type agrees with the type you were aiming for and that the definition is a valid property of the function you want to define.
+\end{enumerate}
+
+\subsubsection{Example}
+\begin{enumerate}
+\item len: [a] -> int
+\item a
+\item \begin{lstlisting}[language=haskell]
+en [] = 
+len (x::xs) = 
+\end{lstlisting}
+\item \begin{lstlisting}[language=haskell]
+en [] = 0
+len (x::xs) = 1 + (len xs)
+\end{lstlisting}
+\item %TODO: Remainging steps.
+\end{enumerate}
+
+\subsection{Higher-Order functions}
+Higher order functions take other functions as argument. Example:
+\begin{lstlisting}[language=haskell]
+twice :: (a -> a) -> a -> a
+twice f x = f (f x)
+\end{lstlisting}
+
+Two other prominent examples are \lstinline|map|, \lstinline|foldr| (reduce) and \lstinline|filter|
+
+Often, functions as \lstinline|sum| or \lstinline|reverse| are defined useing \lstinline|foldr|. This can have performance, read- and provability benefits.
+
+\subsection{Type declaration}
+
+Type declarations in Haskell are a very different thing than expressions.
+
+\begin{lstlisting}[language=haskell]
+type String = [Char]
+type Pos = (Int, Int)
+\end{lstlisting}
+
+Like function definitions, type declarations can have parameters:
+\begin{lstlisting}[language=haskell]
+type Pair a = (a, a)
+
+-- we can define:
+
+mult :: Pair Int -> Int
+mult (m, n) = m * n
+\end{lstlisting}
+
+Note that type definitions may not be recursive, \lstinline[language=haskell]|type Tree = (Int, [Tree])| dost NOT work.
+
+\subsubsection{Data declarations}
+
+Completely new types can be defined by specifying its values as a data declaration. This is often referred to as \emph{algebraic datatypes}
+\begin{lstlisting}[language=haskell]
+data Bool = False | True
+-- False and True are the constructors for the type Bool
+\end{lstlisting}
+
+Definitions are similar to context free grammar. Type and constructors must always begin with an upper-case letter.
+
+Another example:
+\begin{lstlisting}[language=haskell]
+data Anser = Yes | No | Unknown
+
+-- Usage
+flip :: Answer -> Answer
+flip Yes = No
+flip No = Yes
+flip Unknown = Unknown
+\end{lstlisting}
+
+\paragraph{More complex data types} \hfill \\
+
+\begin{lstlisting}[language=haskell]
+data Shape = Circle Float | Rect Float Float
+
+-- Usage
+area :: Shape -> Float
+area (Circle r) = pi * r ^ 2
+are (Rect x y) = x * y
+\end{lstlisting}
+
+For data declarations, there are no $\delta$-reduction rules.
+
+
+\paragraph{Maybe data type} \hfill \\
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.5\linewidth]{images/haskell_maybe_type}
+\caption{Maybe Data Type (similar to Nullable values)}
+\label{fig:haskellmaybetype}
+\end{figure}
+
+\subsubsection{Recursive Types}
+Types may also use self recursion, but in this case must define a base case.
+
+\begin{lstlisting}[language=haskell]
+data Nat = Zero | Succ Nat
+\end{lstlisting}
+
+\subsubsection{Polymorphism}
+\begin{description}
+	\item[Ad-Hoc] E.g. the + function: For every type a different implementation
+	\item[Parametric] Code written to work with many possible type
+	\item[Subtype] one type (subtype) can be substituted for another (supertype). (The use for this is debatable.)
+\end{description}
+
+\subsubsection{Example: Tree in Haskell}
+
+%TODO: Binary Tree form 04-08 Slide 22ff
+
+\subsection{Class and Instance Declarations}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\linewidth]{images/haskell_type_class}
+\caption{Type Class in Java (similar to Interfaces)}
+\label{fig:haskelltypeclass}
+\end{figure}
+
+
+\subsubsection{Extending a Class / Interface}
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\linewidth]{images/haskell_type_class_extending}
+\caption{Haskell Class extension}
+\label{fig:haskelltypeclassextending}
+\end{figure}
+
+\subsubsection{Implementation of a Class}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\linewidth]{images/haskell_type_class_definition}
+\caption{Class implementation}
+\label{fig:haskelltypeclassdefinition}
+\end{figure}
+
+\paragraph{Default implementations} \hfill \\
+
+Default implementations of built-in types like \lstinline|Eq| can also be archived with the \lstinline|deriving| keyword.
+\begin{lstlisting}[language=haskell]
+data Bool = False | True
+  deriving (Eq, Ord, Show, Read)
+\end{lstlisting}
+
+\subsection{Interactive Programming}
+
+\textbf{NOTE}: Interactive Programming is not part of the exam.
+
+Interactive programs have side-effects, in contrast to normal Haskell programs.
+
+The type of side-effect actions is \lstinline[language=haskell]|IO a|
+
+\subsubsection{Basic Actions}
+
+Haskell defines some predefined basic actions:
+
+\begin{lstlisting}[language=haskell]
+getChar :: IO Char
+putChar :: Char -> IO ()
+return :: a -> IO a
+\end{lstlisting}
+
+\subsubsection{Sequencing}
+
+A sequence of actions can be written as a single composition action using the keyword \lstinline|do|.
+
+\begin{lstlisting}[language=haskell]
+act :: IO (Char, Char)
+act = do x <- getChar
+         getChar
+         y <- getChar
+         return (x, y)
+\end{lstlisting}
+%OPTIONAL TODO: From 04- 10 Slide 9 
+
 \section{Multi-Paradigm Programming (Scala)}
 
 
