@@ -1054,7 +1054,10 @@ Applying a function to the wrong type is called a \emph{type error}. Type errors
 
 \paragraph{Lists} \hfill \\
 
-Lists are represented with square brackets, e.g.: \lstinline|[False, True, False] :: [Bool]| or \hfill \\ \lstinline|['a', 'b', 'c'] :: [Char]|. We can also have nested lists: \lstinline|[['a'], ['b', 'c']] :: [[Char]]|
+In shorthand, lists are represented with square brackets, e.g.:\\
+\lstinline|[False, True, False] :: [Bool]| or \lstinline|['a', 'b', 'c'] :: [Char]|. \\
+We can also have nested lists: \lstinline|[['a'], ['b', 'c']] :: [[Char]]| \\
+The shorthand syntax is equivalent to \lstinline|'a' : ('b' : ('c' : []))|
 
 \paragraph{Tuples} \hfill \\
 
@@ -1132,7 +1135,7 @@ False && True = False
 False && False = False
 \end{lstlisting}
 
-Or more shortly:
+Or more compact:
 \begin{lstlisting}[language=Haskell]
 (&&) :: Bool -> Bool -> Bool
 True && True = True
