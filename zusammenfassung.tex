@@ -1391,9 +1391,281 @@ act = do x <- getChar
          y <- getChar
          return (x, y)
 \end{lstlisting}
-%OPTIONAL TODO: From 04- 10 Slide 9 
+%OPTIONAL TODO: From 04- 10 Slide 9
 
 \section{Multi-Paradigm Programming (Scala)}
+
+
+\subsection{Introduction}
+
+Scala steht für Scalable Language. Scala lässt sich zu JVM-Bytecode oder (neuerdings) Javascript compilieren (früher auch zu .NET).
+
+\subsubsection{Features}
+
+\begin{itemize}
+	\item Statisch typisiert (aber dank Typ-Inferenz wenig Schreibaufwand \lstinline|var|
+	\item Scalable: Möglichkeit von Spracherweiterung / DSLs
+	\item Expressions statt Statements (\lstinline|return|-keyword kann weggelassen werden)
+	\item Composable. Methoden können beliebig verschachtelt werden.
+	
+\end{itemize}
+
+\begin{description}
+	\item[Statement] Side Effect
+	\item[Expression] Return Wert
+\end{description}
+
+\paragraph{Beispiele} \hfill \\
+
+\begin{lstlisting}[language=java]
+val isWeekend = {
+	if(dow == DayOfWeek.SATURDAY || dow == DayOfWeek.SUNDAY) {
+		"Yes"
+	} else {
+		"No"
+	}
+\end{lstlisting}
+
+\begin{lstlisting}[language=java]
+def factorial(start: Int): Int = {
+	def fact(i: Int, accumulator: Int): Int = {
+		if (i == 1) {
+			accumulator
+		} else {
+			fact(i - 1, i * accumulator)
+		}
+	}
+	
+	fact(start, 1) 
+}
+
+factorial(10)
+\end{lstlisting}
+
+\subsection{Sprachfeatures}
+
+\subsubsection{Datentypen}
+Sehr ähnlich wie in Java: \lstinline|Int, Float, Double, Boolean|. Aber im gegensatz zu Java sind alles Objekte: \lstinline|5.toFloat| und \lstinline|1.hashCode|
+
+Den Typ \lstinline|void| gibt  es nicht.
+
+\begin{lstlisting}[language=java]
+""" Dies ist ein
+mehrzeiliger String"""
+
+s"10! ist ${factorial(10)}"
+\end{lstlisting}
+
+\subsubsection{Typhierarchie}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\linewidth]{images/scala_klassenhierachy}
+\caption{Klassenhierarchie von Scala}
+\label{fig:scalaklassenhierachy}
+\end{figure}
+
+
+
+\subsubsection{Listen}
+
+Kein Interface wie in Java, sondern konkrete Klasse. Listen sind immutable
+
+\begin{lstlisting}[language=java]
+val list1 = "Iillkommen" :: "zu" :: "Scala" .. Nil
+val list2 = List("Willkommen", "zu", "Scala")
+
+list.head // Wilkommen
+list.tail // "zu" :: "Scala" :: Nil
+list1(2) // "Scala"
+\end{lstlisting}
+
+\subsubsection{Tupel und andere Datenstrukturen}
+
+Es gibt Set, Map, Range, Vector, Trees, Queues etc.
+
+\begin{lstlisting}[language=java]
+val tupel2 = (1, "String")
+val tupel4 = (1, "String", List(1,2,3), false)
+val pair = "key" -> "value"
+
+// Map
+val phoneBook = Map("Mirko" -> "0796548556")
+println(phoneBook("Mirko"))
+\end{lstlisting}
+
+\subsubsection{Variablen}
+Unterscheidung zwischen \lstinline|val| und \lstinline|var|
+
+\begin{lstlisting}[language=java]
+
+val i = 0 /* entspricht im java */ final int i = 0
+
+
+val hallo: String = "Hallo" // Optionale Typenangabe
+
+val welt = "Welt"
+
+// lazy evaluation
+lazy val expensiveValueIMightNotNeed = ...
+
+\end{lstlisting}
+
+\subsubsection{Kontrollstrukturen}
+
+\begin{itemize}
+	\item \lstinline|if(){}else{}| wie im Java (aber kein ternary operator \lstinline|?:|)
+	\item \lstinline|while| wie im Java
+	\item \lstinline|for| ist um einiges mächter als im Java (ähnlich Haskells \lstinline|do|-Notation)
+	\item Exceptions / \lstinline|try{}catch(){}| sehr ähnlich wie im Java, aber nur unchecked exceptions. (Wird eigentlich kaum gebraucht, alles über Rückgabewerte)
+\end{itemize}
+
+\subsubsection{Pattern Matching}
+
+Scala kennt ein ''mächtigeres'' Switch-Case als Java:
+
+\begin{lstlisting}[language=java]
+def patternMatching(i: Int) = {
+	i match {
+		case 0 => "Null" // Kein Fall-Trough (implizites break)
+		case 1 => "Eins"
+		case _ => "?" // Default case
+	}
+}
+\end{lstlisting}
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.7\linewidth]{images/scala_patternmatching_type_and_conditions}
+\caption{Scala Pattern Matching mit Typen und Conditions}
+\label{fig:scalapatternmatchingtypeandconditions}
+\end{figure}
+
+\paragraph{Mit Klassen} \hfill \\
+
+\begin{lstlisting}[language=java]
+case class person(name: String, alter: Int)
+
+def matchAPerson(person: Person) = {
+	person match {
+		case Person("Mirko", 32)	=> "Found Mirko!"
+		case Person(name, age) if age < 18	=> s"Minor: $name"
+		case Person(name, _)	=> s"Adult: $name"
+	}
+}
+\end{lstlisting}
+
+\paragraph{Regex} \hfill \\
+
+Regex sind kein Sprach-Feature von Scala, denn Pattern Matching kann für beliebige Typen erweitert werden (Extractors).
+
+Es ist auch eine Zuweisung möglich: \lstinline[language=java]|val Chf(franken, rappern) = "1.50"|
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\linewidth]{images/scala_patternmatching_regex}
+\caption{Scala Pattern Matching mit Regex}
+\label{fig:scalapatternmatchingregex}
+\end{figure}
+
+
+\subsubsection{Methoden}
+
+\begin{lstlisting}[language=java]
+def add1(m: Int, n: Int): Int = {
+	m + n
+}
+def add2(m: Int, n: Int = 1) = m + n // Geschweifte Klammern überflüssig bei einzelner Expression
+
+add1(10, 5)
+add2(1)
+add1(n = 10, m = 5)
+
+// Parameterliste möglich:
+def add(m: Int)(N: Int) = m + n
+
+add(10)(5)
+
+// Können zu unterschiedlichen Zeitpunkten angewendet werden:
+
+val adToTen = add(10)
+addToTen(5)
+\end{lstlisting}
+
+\paragraph{Methoden mit by-Value Parametern}
+
+\begin{lstlisting}[language=java]
+def unless(condition: Boolean, then: Any) = {
+	if(!condition) {
+		then
+	}
+}
+
+// Parameter werden von Links nach rechts ausgewertet (und da by-Value zuerst evaluiert.)
+// Methode um zu schauen, ob die VM richtig rechnet:
+unless(1 + 2 == 3, throw new RuntimeException("VM Kaputt!"))
+// Die Exception wird aber in jedem Fall geworfen!!
+// Das kann umgangen werden mit by-Name Parametern.
+
+\end{lstlisting}
+
+\paragraph{Methoden mit by-Name Parametern}
+
+by-Name Parameter sind eigentlich funktionen %TODO: W13 Slide 45
+
+\begin{lstlisting}[language=java]
+def unless(condition: Boolean, then: => Any) = {
+	if(!condition) {
+		then
+	}
+}
+
+unless(1 + 2 == 3, throw new RuntimeException("VM Kaputt!"))
+// Funktioniert jetzt!
+\end{lstlisting}
+
+\subsubsection{Funktionen}
+
+\begin{lstlisting}[language=java]
+(m: Int, n: Int) => m + n
+(m: Int, n: Int) => { m + n }
+(m: Int) => (n: Int) => m + n
+val add = (m: Int, n: Int) => m + n
+add(2, 3)
+\end{lstlisting}
+
+Speziell ist: In Scala gibt es Methoden und Funktionen. Funktionen sind Values (bzw. Objektinstanzen aus JVM sicht). Methoden sind an ein Objekt gebunden.
+
+
+\begin{lstlisting}[language=java]
+val people = List(new Person(/*...*/))
+
+val istVoljährig = (p: Person) => p.age >= 18
+people.filter(istVolljährig)
+
+people.filter((p: Person) => p.age >= 18)
+people.filter(p => p.age >= 18)
+\end{lstlisting}
+
+%TODO: W13 Slide 44
+
+\subsubsection{Operatoren}
+Operatoren gibt es eigentlich nicht, dies sind einfach methoden die aus den typeschen Operatorenzeichen bestehen. Dies geht aber nur bei Methoden mit explizitem Empfänger und einem Argument!
+
+\begin{lstlisting}[language=java]
+10/2 == 10./(2) // Eine Methode "/" auf das Objekt 10
+p.age >= 18 == p.age.>=(18)
+
+0 to 1000 by 5 == 0.to(1000).by(5)
+0 to 200 map (i => i * 5)
+people filter istVolljährig
+\end{lstlisting}
+
+\subsubsection{Klassen}
+% Nächste Vorlesung: Slide 48
+
+\subsubsection{Objekte}
+
 
 
 \input{./appendix.tex}
