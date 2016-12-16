@@ -1476,6 +1476,7 @@ val list1 = "Iillkommen" :: "zu" :: "Scala" .. Nil
 val list2 = List("Willkommen", "zu", "Scala")
 
 list.head // Wilkommen
+list.hadOption // safe access to lists -> results in "None" if list is empty
 list.tail // "zu" :: "Scala" :: Nil
 list1(2) // "Scala"
 \end{lstlisting}
