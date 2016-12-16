@@ -1575,24 +1575,24 @@ Es ist auch eine Zuweisung möglich: \lstinline[language=java]|val Chf(franken, 
 def add1(m: Int, n: Int): Int = {
 	m + n
 }
-def add2(m: Int, n: Int = 1) = m + n // Geschweifte Klammern überflüssig bei einzelner Expression
+def add2(m: Int, n: Int = 1) = m + n // Geschweifte Klammern ueberfluessig bei einzelner Expression
 
 add1(10, 5)
 add2(1)
 add1(n = 10, m = 5)
 
-// Parameterliste möglich:
+// Parameterliste moeglich:
 def add(m: Int)(N: Int) = m + n
 
 add(10)(5)
 
-// Können zu unterschiedlichen Zeitpunkten angewendet werden:
+// Koennen zu unterschiedlichen Zeitpunkten angewendet werden:
 
 val adToTen = add(10)
 addToTen(5)
 \end{lstlisting}
 
-\paragraph{Methoden mit by-Value Parametern}
+\paragraph{Methoden mit by-Value Parametern} \hfill \\
 
 \begin{lstlisting}[language=java]
 def unless(condition: Boolean, then: Any) = {
@@ -1640,8 +1640,8 @@ Speziell ist: In Scala gibt es Methoden und Funktionen. Funktionen sind Values (
 \begin{lstlisting}[language=java]
 val people = List(new Person(/*...*/))
 
-val istVoljährig = (p: Person) => p.age >= 18
-people.filter(istVolljährig)
+val istVoljaehrig = (p: Person) => p.age >= 18
+people.filter(istVolljaehrig)
 
 people.filter((p: Person) => p.age >= 18)
 people.filter(p => p.age >= 18)
@@ -1658,7 +1658,7 @@ p.age >= 18 == p.age.>=(18)
 
 0 to 1000 by 5 == 0.to(1000).by(5)
 0 to 200 map (i => i * 5)
-people filter istVolljährig
+people filter istVolljaehrig
 \end{lstlisting}
 
 \subsubsection{Klassen}
